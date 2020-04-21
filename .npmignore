@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+.travis.yml
+.eslintrc
+.editorconfig
+__tests__
