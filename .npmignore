@@ -4,3 +4,4 @@
 .eslintrc
 .editorconfig
 __tests__
+src
