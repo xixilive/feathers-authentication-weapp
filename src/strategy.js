@@ -25,25 +25,22 @@
 const assert = require('assert')
 const {AuthenticationBaseStrategy} = require('@feathersjs/authentication')
 
+const initResolver = function() {
+  if(this.resolver) {
+    return
+  }
+  this.resolver = this._resolver(this)
+  const resolverFns = ['decryptData', 'findEntity', 'createEntity']
+  resolverFns.forEach((fn) => {
+    assert('function' === typeof this.resolver[fn], `${fn} must be defined as function in resolver`)
+  })
+}
+
 class WeappStrategy extends AuthenticationBaseStrategy {
   constructor(resolver = null) {
     super()
     assert('function' === typeof resolver, 'resolver function must be provided')
-    this.resolver = resolver(this)
-    const resolverFns = ['decryptData', 'findEntity', 'createEntity']
-    resolverFns.forEach((fn) => {
-      assert(
-        'function' === typeof this.resolver[fn],
-        `${fn} must be defined as function in resolver`
-      )
-    })
-  }
-
-  // optional authentication service lifecycle
-  verifyConfiguration(){
-    if(!this.entityService) {
-      throw new Error(`entityService unavaliable, check feathers authentication config`)
-    }
+    this._resolver = resolver
   }
 
   async resolveEntity(authData, params) {
@@ -59,6 +56,7 @@ class WeappStrategy extends AuthenticationBaseStrategy {
 
   // authentication service lifecycle
   async authenticate(data, params) {
+    initResolver.call(this)
     const decoded = await this.resolver.decryptData(data, params)
     const user = await this.resolveEntity(decoded, params)
     const {entity} = this.authentication.configuration;

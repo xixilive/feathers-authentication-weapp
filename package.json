@@ -1,6 +1,6 @@
 {
   "name": "@feathers-weapp/auth",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "feathers authentication strategy for wechat mini-program",
   "main": "dist/index.js",
   "repository": "git@github.com:xixilive/feathers-weapp.git",

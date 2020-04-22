@@ -24,8 +24,8 @@ describe('strategy', () => {
   it('should update exists entity, and authenticate success', async() => {
     const strategy = new Strategy(buildResolver())
     setupStrategy(strategy)
-    const resolver = buildResolver.current
     const result = await strategy.authenticate('rawdata', 'params')
+    const resolver = buildResolver.current
     
     expect(result).toEqual({authentication: {strategy: 'weapp'}, account: 'updated user'})
     
@@ -38,8 +38,8 @@ describe('strategy', () => {
   it('should create new entity, and authenticate success', async() => {
     const strategy = new Strategy(buildResolver({found: false}))
     setupStrategy(strategy)
-    const resolver = buildResolver.current
     const result = await strategy.authenticate('rawdata', 'params')
+    const resolver = buildResolver.current
 
     expect(result).toEqual({authentication: {strategy: 'weapp'}, account: 'new user'})
 
@@ -52,8 +52,8 @@ describe('strategy', () => {
   it('should return exits entity without update, and authenticate success', async() => {
     const strategy = new Strategy(buildResolver({patch: false}))
     setupStrategy(strategy)
-    const resolver = buildResolver.current
     const result = await strategy.authenticate('rawdata', 'params')
+    const resolver = buildResolver.current
 
     expect(result).toEqual({authentication: {strategy: 'weapp'}, account: 'exist user'})
 
